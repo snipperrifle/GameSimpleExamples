@@ -1,0 +1,71 @@
+<html>
+<head>
+ <style>
+	body{
+		background-color:black;
+		}
+		canvas{
+			border:1px dashed red;
+			background-color:lime	;
+		}
+  </style>
+    <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+    <script>
+	
+		//making stage a circle global variables to be able to Access them throw 
+		//Console in the browser by right clicking and chooseing "inspect elements"
+		var stage;
+		var circle;
+	
+	function init() {
+		//refering to canvas and makeing a object "Container"
+        stage = new createjs.Stage("demoCanvas");
+        
+		//createing a Shape object of type Circle
+		circle = new createjs.Shape();
+		
+		//using endFill is optional becouse we have only one shape
+        circle.graphics.beginFill("Crimson").drawCircle(0, 0, 10);//x,y,raius
+		
+		//x , y positions
+        circle.x = 100;
+        circle.y = 100;
+		
+		//adding our child to stage container
+        stage.addChild(circle);
+		
+		
+		/* ------------------------------------------------------------
+		   --- if you forget to update the stage nothing will apear ---
+		   ------------------------------------------------------------
+		*/
+		stage.update();
+		
+		//using Tweenjs to Move the shape Arround
+        createjs.Tween.get(circle, {loop: true})//after finishing this loop again
+          .to({x: 400}, 3000, createjs.Ease.getPowInOut(3))//goto right
+
+		  .to({alpha: 0, y: 75}, 3000, createjs.Ease.getPowInOut(2))//Going up and disapear
+		  
+          .to({alpha: 0, y: 125}, 3000) //new position tobe but invisible
+		  
+          .to({alpha: 1, y: 100}, 3000, createjs.Ease.getPowInOut(2))//goup but slow
+		  
+          .to({x: 100}, 3000, createjs.Ease.getPowInOut(2));//go left and stop no loop :)
+	
+		//working with frame Rates Base on your shape update
+		createjs.Ticker.setFPS(40);
+		
+		/*** This line will make sure that the stage gets updated 
+		Note: without this Line nothing will happen we will go around this in future
+		***/
+		createjs.Ticker.addEventListener("tick", stage);
+		
+	}//end of init	
+  </script>
+</head>
+  
+  <body onload="init();">
+    <canvas id="demoCanvas" width="500" height="200"></canvas>
+  </body>
+</html>
